@@ -45,7 +45,7 @@ please execute:
 ```
 sudo apt-get upgrade
 sudo apt-get update
-sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-dev uuid-dev
+sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-dev uuid-dev libkrb5-dev 
 ```
 
 ### Cloning Repository
@@ -73,9 +73,9 @@ The resulting shell installation bundle will be found in
 
 To run the unit tests, docker must be properly configured first. Note
 that these may change; for latest and greatest installation
-instructions, see the [Docker Site][].
+instructions, see the [Docker Site](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/).
 
-Assuming the instructions from the [Docker Site][] have not changed, execute:
+Assuming the instructions from the [Docker Site](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) have not changed, execute:
 
 ```
 curl -fsSL https://get.docker.com/ | sh
@@ -92,10 +92,12 @@ make test
 
 ### Final Kit Testing Instructions
 
+Make sure the `OMS Agent` is installed. You can find instructions [here](https://github.com/Microsoft/OMS-Agent-for-Linux).
+
 To install the bundle run it with --install. For example (actual bundle name may be different):
 
 ```
-sudo sh ../target/Linux_ULINUX_1.0_x64_64_Release/docker-cimprov-1.0.0-3.universal.x86_64.sh --install
+sudo sh ../target/Linux_ULINUX_1.0_x64_64_Release/docker-cimprov-*.universal.x86_64.sh --install
 ```
 
 After the shell bundle is installed, you can verify proper operations.
