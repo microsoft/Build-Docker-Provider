@@ -73,9 +73,9 @@ The resulting shell installation bundle will be found in
 
 To run the unit tests, docker must be properly configured first. Note
 that these may change; for latest and greatest installation
-instructions, see the [Docker Site][].
+instructions, see the [Docker Site](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/).
 
-Assuming the instructions from the [Docker Site][] have not changed, execute:
+Assuming the instructions from the [Docker Site](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) have not changed, execute:
 
 ```
 curl -fsSL https://get.docker.com/ | sh
