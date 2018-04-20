@@ -1,7 +1,7 @@
 [submodule "docker"]
 	path = docker
 	url = git@github.com:Microsoft/Docker-Provider.git
-	branch = master
+	branch = ci_feature_prod
 [submodule "pal"]
 	path = pal
 	url = git@github.com:Microsoft/pal.git
