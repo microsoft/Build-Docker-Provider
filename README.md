@@ -48,6 +48,39 @@ sudo apt-get update
 sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-dev uuid-dev libkrb5-dev 
 ```
 
+#### Setting up your environment to build the golang source
+
+- Begin by downloading the latest package for Go by running this command, which will pull down the Go package file, and save it to your current working directory
+
+  `sudo curl -O https://storage.googleapis.com/golang/go1.9.1.linux-amd64.tar.gz`
+
+- Next, use tar to unpack the package. This command will use the tar tool to open and expand the downloaded file, and creates a folder using the package name, and then moves it to $HOME
+	```
+    sudo tar -xvf go1.9.1.linux-amd64.tar.gz
+    sudo mv go ~
+    ```
+
+- _Set PATH , GOBIN, GOPATH_
+    ```
+    export PATH=$PATH:$HOME/go/bin
+	export GOBIN=$HOME/go/bin
+	export GOPATH=~/Build-Docker-Provider/docker/source/code/go #Set this based on your repo path
+    ```
+
+- _Install glide to manage the go dependencies_
+    ```
+    sudo chmod 777 ~/go/bin #Required to get permissions to create glide executable
+	curl https://glide.sh/get | sh
+    cd <path to go src> #e.g. cd ~/Build-Docker-Provider/docker/source/code/go/src/plugins
+	glide init 
+	glide update 
+	glide install
+    ```
+
+- **Testing**
+
+   Sync to ci_feature and try to do a make under docker/build. Everything should be building at this point
+
 ### Cloning Repository
 
 To clone the repository, execute the following command:
