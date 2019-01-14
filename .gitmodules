@@ -1,7 +1,7 @@
 [submodule "docker"]
 	path = docker
 	url = git@github.com:Microsoft/Docker-Provider.git
-	branch = ci_feature
+	branch = vishwa/telegraf
 [submodule "pal"]
 	path = pal
 	url = git@github.com:Microsoft/pal.git
