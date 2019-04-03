@@ -48,6 +48,14 @@ sudo apt-get update
 sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-dev uuid-dev libkrb5-dev 
 ```
 
+### Cloning Repository
+
+To clone the repository, execute the following command:
+
+```
+git clone --recursive git@github.com:Microsoft/Build-Docker-Provider.git Build-Docker-Provider
+```
+
 #### Setting up your environment to build the golang source
 
 - Begin by downloading the latest package for Go by running this command, which will pull down the Go package file, and save it to your current working directory
@@ -59,7 +67,7 @@ sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-
     sudo tar -xvf go1.9.1.linux-amd64.tar.gz
     sudo mv go ~
     ```
-
+ 
 - _Set PATH , GOBIN, GOPATH_
     ```
     export PATH=$PATH:$HOME/go/bin
@@ -71,7 +79,7 @@ sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-
     ```
     sudo chmod 777 ~/go/bin #Required to get permissions to create glide executable
 	curl https://glide.sh/get | sh
-    cd <path to go src> #e.g. cd ~/Build-Docker-Provider/docker/source/code/go/src/plugins
+        cd ~/Build-Docker-Provider/docker/source/code/go/src/plugins #cd <path to go src> 
 	glide init 
 	glide update 
 	glide install
@@ -81,20 +89,12 @@ sudo apt-get install git g++ make pkg-config libssl-dev libpam0g-dev rpm librpm-
 
    Sync to ci_feature and try to do a make under docker/build. Everything should be building at this point
 
-### Cloning Repository
-
-To clone the repository, execute the following command:
-
-```
-git clone --recursive git@github.com:Microsoft/Build-Docker-Provider.git bld-docker
-```
-
 ### Building Instructions
 
 To build the project, execute commands like:
 
 ```
-cd bld-docker/docker/build
+cd Build-Docker-Provider/docker/build
 ./configure --enable-ulinux
 make
 ```
