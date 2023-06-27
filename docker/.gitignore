@@ -1,0 +1,10 @@
+# git ignore file for the Docker-Provider project
+
+/intermediate/
+/target/
+/build/config.mak
+
+# Unit test files
+
+/test/code/providers/TestScriptPath.h
+/test/code/providers/providertestutils.cpp

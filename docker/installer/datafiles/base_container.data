@@ -1,0 +1,148 @@
+%Variables
+SHELL_HEADER:            '#!/bin/sh'
+SHLIB_EXT:               'so'
+
+SHORT_NAME:              'docker-cimprov'
+SHORT_NAME_PREFIX:       'MSFT'
+LONG_NAME:               'Microsoft CIM management interface for containers'
+GROUP:                   'Applications/System'
+LICENSE:                 'none'
+VENDOR:                  'http://www.microsoft.com'
+PROVIDES:                'dockercimprovider'
+DESCRIPTION:             'Provides CIM management interface for containers'
+MAINTAINER:              'Microsoft Corporation'
+
+%Defines
+
+%Files
+/opt/microsoft/docker-cimprov/lib/libcontainer.so;			intermediate/${{BUILD_CONFIGURATION}}/libcontainer.so;	755; root; root
+
+/etc/opt/microsoft/docker-cimprov/conf/installinfo.txt;			installer/conf/installinfo.txt;						644; root; root; conffile
+
+/etc/opt/omi/conf/omiregister/root-cimv2/container.reg;			installer/conf/omi/container.reg;					755; root; root
+
+/opt/microsoft/omsagent/plugin/filter_docker_log.rb;			source/code/plugin/filter_docker_log.rb;			644; root; root
+/opt/microsoft/omsagent/plugin/filter_container.rb;			    source/code/plugin/filter_container.rb;				644; root; root
+/opt/microsoft/omsagent/plugin/filter_container_log.rb;			source/code/plugin/filter_container_log.rb;		    644; root; root
+
+/opt/microsoft/omsagent/plugin/in_kube_podinventory.rb;			source/code/plugin/in_kube_podinventory.rb;			644; root; root
+/opt/microsoft/omsagent/plugin/in_kube_events.rb;			    source/code/plugin/in_kube_events.rb;				644; root; root
+/opt/microsoft/omsagent/plugin/in_kube_logs.rb;                         source/code/plugin/in_kube_logs.rb;                                 644; root; root
+/opt/microsoft/omsagent/plugin/KubernetesApiClient.rb;			source/code/plugin/KubernetesApiClient.rb;			644; root; root
+/opt/microsoft/omsagent/plugin/in_containerlog_sudo_tail.rb;		source/code/plugin/in_containerlog_sudo_tail.rb;	644; root; root
+/opt/microsoft/omsagent/plugin/containerlogtailfilereader.rb;		source/code/plugin/containerlogtailfilereader.rb;	744; root; root 
+
+/etc/opt/microsoft/docker-cimprov/container.conf;			    installer/conf/container.conf;                      644; root; root
+
+%Links
+/opt/omi/lib/libcontainer.${{SHLIB_EXT}}; /opt/microsoft/docker-cimprov/lib/libcontainer.${{SHLIB_EXT}}; 644; root; root
+
+%Directories
+/etc;                                                   755; root; root; sysdir
+/etc/opt;                                               755; root; root; sysdir
+/opt;                                                   755; root; root; sysdir
+/var;                                                   755; root; root; sysdir
+/var/opt;                                               755; root; root; sysdir
+
+/etc/opt/microsoft;                                     755; root; root; sysdir
+/etc/opt/microsoft/docker-cimprov;                      755; root; root
+/etc/opt/microsoft/docker-cimprov/conf;                 755; root; root
+
+/etc/opt/omi;                                           755; root; root; sysdir
+/etc/opt/omi/conf;                                      755; root; root; sysdir
+/etc/opt/omi/conf/omiregister;                          755; root; root; sysdir
+/etc/opt/omi/conf/omiregister/root-cimv2;               755; root; root
+
+/opt/microsoft;                                         755; root; root; sysdir
+/opt/microsoft/docker-cimprov;                          755; root; root
+/opt/microsoft/docker-cimprov/bin;                      755; root; root
+/opt/microsoft/docker-cimprov/lib;                      755; root; root
+
+/opt/microsoft/omsagent;                                755; root; root; sysdir
+/opt/microsoft/omsagent/plugin;                         755; root; root; sysdir
+
+/opt/omi;                                               755; root; root; sysdir
+/opt/omi/lib;                                           755; root; root; sysdir
+
+/var/opt/microsoft;                                     755; root; root; sysdir
+/var/opt/microsoft/docker-cimprov;                      755; root; root
+/var/opt/microsoft/docker-cimprov/state;                755; root; root
+/var/opt/microsoft/docker-cimprov/state/ContainerInventory; 755; root; root
+/var/opt/microsoft/docker-cimprov/state/ImageInventory; 755; root; root
+/var/opt/microsoft/docker-cimprov/log;                  755; root; root
+
+%Dependencies
+
+%Postinstall_10
+WriteInstallInfo() {
+	date +%Y-%m-%dT%T.0Z > /etc/opt/microsoft/docker-cimprov/conf/installinfo.txt
+	echo ${{VERSION}}-${{RELEASE}} >> /etc/opt/microsoft/docker-cimprov/conf/installinfo.txt
+}
+WriteInstallInfo
+
+#Setup sudo permission for containerlogtailfilereader
+if [ -z $(cat /etc/sudoers.d/omsagent | grep /containerlogtailfilereader.rb) ]
+then
+    chmod +w /etc/sudoers.d/omsagent
+    echo "#run containerlogtailfilereader.rb for docker-provider" >> /etc/sudoers.d/omsagent
+    echo "omsagent ALL=(ALL) NOPASSWD: /opt/microsoft/omsagent/ruby/bin/ruby /opt/microsoft/omsagent/plugin/containerlogtailfilereader.rb *" >> /etc/sudoers.d/omsagent
+    chmod 440 /etc/sudoers.d/omsagent
+fi
+
+# Get the state file in place with proper permissions
+touch /var/opt/microsoft/docker-cimprov/state/LastEventQueryTime.txt
+chmod 644 /var/opt/microsoft/docker-cimprov/state/LastEventQueryTime.txt
+chown omsagent:omsagent /var/opt/microsoft/docker-cimprov/state/LastEventQueryTime.txt
+
+touch /var/opt/microsoft/docker-cimprov/state/KubeEventQueryState.yaml
+chmod 644 /var/opt/microsoft/docker-cimprov/state/KubeEventQueryState.yaml
+chown omsagent:omsagent /var/opt/microsoft/docker-cimprov/state/KubeEventQueryState.yaml
+
+touch /var/opt/microsoft/docker-cimprov/state/KubeLogQueryState.yaml
+chmod 644 /var/opt/microsoft/docker-cimprov/state/KubeLogQueryState.yaml
+chown omsagent:omsagent /var/opt/microsoft/docker-cimprov/state/KubeLogQueryState.yaml
+
+touch /var/opt/microsoft/docker-cimprov/log/kubernetes_client_log.txt
+chmod 666 /var/opt/microsoft/docker-cimprov/log/kubernetes_client_log.txt
+chown omsagent:omiusers /var/opt/microsoft/docker-cimprov/log/kubernetes_client_log.txt
+
+mv /etc/opt/microsoft/docker-cimprov/container.conf /etc/opt/microsoft/omsagent/sysconf/omsagent.d/container.conf
+chown omsagent:omsagent /etc/opt/microsoft/omsagent/sysconf/omsagent.d/container.conf
+
+%Postuninstall_10
+# If we're an upgrade, skip all of this cleanup
+if ${{PERFORMING_UPGRADE_NOT}}; then 
+   # Clean up installinfo.txt file (registered as "conf" file to pass rpmcheck)
+   rm -f /etc/opt/microsoft/docker-cimprov/conf/installinfo.txt*
+   rm -f /var/opt/microsoft/docker-cimprov/state/LastEventQueryTime.txt
+   rm -f /var/opt/microsoft/docker-cimprov/state/KubeEventQueryState.yaml
+   rm -f /var/opt/microsoft/docker-cimprov/state/KubeLogQueryState.yaml
+   rm -f /var/opt/microsoft/docker-cimprov/log/kubernetes_client_log.txt
+   rm -f /etc/opt/microsoft/omsagent/conf/omsagent.d/container.conf
+   rmdir /var/opt/microsoft/docker-cimprov/log 2> /dev/null
+   rmdir /var/opt/microsoft/docker-cimprov/state/ContainerInventory 2> /dev/null
+   rmdir /var/opt/microsoft/docker-cimprov/state/ImageInventory 2> /dev/null
+   rmdir /var/opt/microsoft/docker-cimprov/state 2> /dev/null
+   rmdir /var/opt/microsoft/docker-cimprov 2> /dev/null
+   rmdir /etc/opt/microsoft/docker-cimprov/conf 2> /dev/null
+   rmdir /etc/opt/microsoft/docker-cimprov 2> /dev/null
+   rmdir /etc/opt/microsoft 2> /dev/null
+   rmdir /etc/opt 2> /dev/null
+   #Remove sudoers file edit
+   if [ -s /etc/sudoers.d/omsagent ]
+   then
+    chmod +w /etc/sudoers.d/omsagent
+    sed -i '/docker\-provider/,+1 d' /etc/sudoers.d/omsagent
+    chmod 440 /etc/sudoers.d/omsagent
+   fi
+fi
+
+%Preinstall_0
+${{SHELL_HEADER}}
+%Postinstall_0
+${{SHELL_HEADER}}
+%Preuninstall_0
+${{SHELL_HEADER}}
+
+%Postuninstall_0
+${{SHELL_HEADER}}

@@ -1,0 +1,281 @@
+// Container_ContainerStatistics
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Docker Container Statistical Information" )
+]
+class Container_ContainerStatistics : CIM_ManagedElement
+{
+	[ Key, Description ( "Container ID" ) ]
+	String InstanceID;
+
+	[ Description ( "Network received bytes for the container instance" ) ]
+	uint64 NetRXBytes;
+
+	[ Description ( "Network transmitted bytes for the container instance" ) ]
+	uint64 NetTXBytes;
+
+	[ Description ( "Memory currently used for the container instance" ) ]
+	uint64 MemUsedMB;
+
+	[ Description ( "CPU (total) used for container instance" ) ]
+	uint64 CPUTotal;
+
+	[ Description ( "Percentage of CPU (total) used for container instance" ) ]
+	uint16 CPUTotalPct;
+
+	[ Description ( "Number of bytes read from disk" ) ]
+	uint64 DiskBytesRead;
+
+	[ Description ( "Number of bytes written to disk" ) ]
+	uint64 DiskBytesWritten;
+};
+
+// Container_ImageInventory
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Docker image inventory data" )
+]
+class Container_ImageInventory : CIM_ManagedElement
+{
+	[ Key, Description ( "Image ID" ) ]
+	String InstanceID;
+
+	[ Description ( "Image name" ) ]
+	String Image;
+
+	[ Description ( "Repository name" ) ]
+	String Repository;
+
+	[ Description ( "Image tag" ) ]
+	String ImageTag;
+
+	[ Description ( "Host name of Docker host" ) ]
+	String Computer;
+
+	[ Description ( "Number of running containers" ) ]
+	Uint32 Running;
+
+	[ Description ( "Number of stopped containers" ) ]
+	Uint32 Stopped;
+
+	[ Description ( "Number of failed containers" ) ]
+	Uint32 Failed;
+
+	[ Description ( "Number of paused containers" ) ]
+	Uint32 Paused;
+
+	[ Description ( "Total number of containers" ) ]
+	Uint32 Total;
+
+	[ Description ( "Image actual size in MB" ) ]
+	string ImageSize;
+
+	[ Description ( "Virtual image size in MB") ]
+	string VirtualSize;
+};
+
+// Container_DaemonEvent
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Docker daemon event" )
+]
+class Container_DaemonEvent : CIM_ManagedElement
+{
+	[ Key, Description ( "GUID" ) ]
+	String InstanceID;
+
+	[ Description ( "Host name of Docker host" ) ]
+	String Computer;
+
+	[ Description ( "Timestamp of event" ) ]
+	String TimeOfCommand;
+
+	[ Description ( "Event type" ) ]
+	String Command;
+
+	[ Description ( "Container ID" ) ]
+	String Id;
+
+	[ Description ( "Container name" ) ]
+	String ContainerName;
+};
+
+// Container_ContainerInventory
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Docker container inventory data" )
+]
+class Container_ContainerInventory : CIM_ManagedElement
+{
+	[ Key, Description ( "Container ID" ) ]
+	String InstanceID;
+
+	[ Description ( "Time when container was created" ) ]
+	String CreatedTime;
+
+	[ Description ( "State of container" ) ]
+	String State;
+
+	[ Description ( "Exit code of container" ) ]
+	uint32 ExitCode;
+
+	[ Description ( "Time when container started" ) ]
+	String StartedTime;
+
+	[ Description ( "Time when container exited" ) ]
+	String FinishedTime;
+
+	[ Description ( "Image ID of container" ) ]
+	String ImageId;
+
+	[ Description ( "Image name of container") ]
+	String Image;
+
+	[ Description ( "Repository name of container") ]
+	String Repository;
+
+	[ Description ( "Image tag of container") ]
+	String ImageTag;
+
+	[ Description ( "Compose group which contains the container" ) ]
+	String ComposeGroup;
+
+	[ Description ( "Host name of container" ) ]
+	String ContainerHostname;
+
+	[ Description ( "Host name of Docker host" ) ]
+	String Computer;
+
+	[ Description ( "JSON of command run inside container" ) ]
+	String Command;
+
+	[ Description ( "JSON of container environment variables" ) ]
+	String EnvironmentVar;
+
+	[ Description ( "JSON of container port mappings" ) ]
+	String Ports;
+
+	[ Description ( "JSON of container links" ) ]
+	String Links;
+};
+
+// Container_ContainerLog
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Docker Container Logs Information" )
+]
+class Container_ContainerLog : CIM_ManagedElement
+{
+	[ Key, Description ( "GUID" ) ]
+	String InstanceID;
+
+	[ Description ( "Image Id" ) ]
+	String Image;
+
+	[ Description ( "Image Name" ) ]
+	String ImageName;
+
+	[ Description ( "Container ID" ) ]
+	String Id;
+
+	[ Description ( "Container Name" ) ]
+	String Name;
+
+	[ Description ( "Log source" ) ]
+	String LogEntrySource;
+
+	[ Description ( "Log message" ) ]
+	String LogEntry;
+
+	[ Description ( "Host name of Docker host" ) ]
+	String Computer;
+};
+
+// Container_HostInventory
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Docker Host Inventory" )
+]
+class Container_HostInventory : CIM_ManagedElement
+{
+	[ Key, Description ( "GUID" ) ]
+	String InstanceID;
+
+	[ Description ( "Host name of Docker host" ) ]
+	String Computer;
+
+	[ Description ( "Docker version" ) ]
+	String DockerVersion;
+
+	[ Description ( "Host operating system" ) ]
+	String OperatingSystem;
+
+	[ Description ( "Host volume information" ) ]
+	String Volume;
+
+	[ Description ( "Host network information" ) ]
+	String Network;
+
+	[ Description ( "Host internal IP information" ) ]
+	String InternalIp;
+
+	[ Description ( "Host role" ) ]
+	String NodeRole;
+
+	[ Description ( "Cluster orchestator type" ) ]
+	String OrchestratorType;
+};
+
+// Container_Process
+// -------------------------------------------------------------------
+[   Version ( "1.0.0" ),
+	Description ( "Container process" )
+]
+class Container_Process : CIM_ManagedElement
+{
+	[ Key, Description ( "GUID" ) ]
+	String InstanceID;
+
+	[ Description ( "User ID number" ) ]
+	String Uid;
+
+	[ Description ( "Process ID" ) ]
+	String PID;
+
+	[ Description ( "Parent process ID" ) ]
+	String PPID;
+
+	[ Description ( "Cpu utilization" ) ]
+	String C;
+
+	[ Description ( "Host volume information" ) ]
+	String STIME;
+
+	[ Description ( "The device number of the controling tty" ) ]
+	String Tty;
+
+	[ Description ( "Time process was started" ) ]
+	String TIME;
+
+	[ Description ( "Name of executable" ) ]
+	String Cmd;
+	
+	[ Description ( "Cluster orchestator type" ) ]
+	String Id;
+	
+	[ Description ( "Container name" ) ]
+	String Name;
+	
+	[ Description ( "pod name" ) ]
+	String Pod;
+	
+	[ Description ( "Pod uuid" ) ]
+	String PodUid;
+	
+	[ Description ( "Namespace " ) ]
+	String Namespace;
+	
+	[ Description ( "Host name" ) ]
+	String Computer;
+};
+
