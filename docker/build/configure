@@ -9,6 +9,7 @@ enable_purify_agent=""
 enable_purify_server=""
 enable_omi_tools=""
 enable_omi_tools_flag=0
+enable_omi_security_hardening="--enable-security-hardening"
 build_type=Release
 ULINUX=0
 NOULINIX=0
@@ -118,11 +119,12 @@ EOF
     exit 0
 fi
 
-omi_configure_quals="${enable_debug} ${enable_purify_agent} ${enable_purify_server} ${enable_omi_tools} ${omi_configure_quals}"
+omi_configure_quals="${enable_debug} ${enable_purify_agent} ${enable_purify_server} ${enable_omi_tools} ${omi_configure_quals} ${enable_omi_security_hardening}"
 pal_configure_quals="${enable_debug}"
 
 # Note: Most of this code came from the PAL configure file
 
+echo ${omi_configure_quals}
 set_ulinux_pf() 
 {
     PF_MAJOR=1

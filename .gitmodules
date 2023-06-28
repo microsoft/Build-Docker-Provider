@@ -1,7 +1,3 @@
-[submodule "docker"]
-	path = docker
-	url = git@github.com:Microsoft/Docker-Provider.git
-	branch = master
 [submodule "pal"]
 	path = pal
 	url = git@github.com:Microsoft/pal.git
@@ -9,4 +5,4 @@
 [submodule "omi"]
 	path = omi
 	url = git@github.com:Microsoft/omi.git
-	branch = stable
+	branch = master
